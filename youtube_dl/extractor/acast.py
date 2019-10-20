@@ -53,6 +53,7 @@ class ACastIE(InfoExtractor):
     }]
 
     def _real_extract(self, url):
+        print("HERRREEEE...", self)
         channel, display_id = re.match(self._VALID_URL, url).groups()
         s = self._download_json(
             'https://feeder.acast.com/api/v1/shows/%s/episodes/%s' % (channel, display_id),
@@ -114,9 +115,11 @@ class ACastChannelIE(InfoExtractor):
 
     @classmethod
     def suitable(cls, url):
+        print("HERRREEEE...", cls)
         return False if ACastIE.suitable(url) else super(ACastChannelIE, cls).suitable(url)
 
     def _fetch_page(self, channel_slug, page):
+        print("HERRREEEE...", self)
         casts = self._download_json(
             self._API_BASE_URL + 'channels/%s/acasts?page=%s' % (channel_slug, page),
             channel_slug, note='Download page %d of channel data' % page)
@@ -126,6 +129,7 @@ class ACastChannelIE(InfoExtractor):
                 'ACast', cast['id'])
 
     def _real_extract(self, url):
+        print("HERRREEEE...", self)
         channel_slug = self._match_id(url)
         channel_data = self._download_json(
             self._API_BASE_URL + 'channels/%s' % channel_slug, channel_slug)
